@@ -1,0 +1,16 @@
+{
+  "name": "fabu-agent-skill",
+  "version": "0.2.0",
+  "private": false,
+  "type": "module",
+  "description": "Cross-platform AI agent skill for publishing Markdown drafts to Toutiao and CSDN with Playwright-first automation and agent fallback.",
+  "scripts": {
+    "auth:toutiao": "node scripts/save-auth.mjs toutiao",
+    "auth:csdn": "node scripts/save-auth.mjs csdn",
+    "publish": "node scripts/publish-batch.mjs",
+    "validate": "python3 scripts/validate-repo.py"
+  },
+  "dependencies": {
+    "playwright": "^1.57.0"
+  }
+}

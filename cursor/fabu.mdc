@@ -1,5 +1,5 @@
 ---
-description: Publish local Markdown news drafts to Toutiao and CSDN with agent-browser, then archive only after both sites succeed.
+description: Publish local Markdown news drafts to Toutiao and CSDN with Playwright-first automation, then archive only after both sites succeed.
 alwaysApply: false
 ---
 
@@ -8,10 +8,9 @@ alwaysApply: false
 When the user asks to publish local Markdown articles/news drafts to Toutiao, 头条号, CSDN, or to run the `fabu` workflow:
 
 1. Read `skill/fabu/SKILL.md`.
-2. Use only `vercel-labs/agent-browser` for browser actions.
-3. Run `python3 skill/fabu/scripts/prepare_articles.py "<folder>"` to build the queue.
-4. For each article, publish to Toutiao and CSDN.
-5. Archive with `--archive` only after both sites are verified successful.
+2. Prefer official backend/API publishing if available and authorized.
+3. Otherwise run the Playwright executor: `npm run publish -- --folder "<folder>"`.
+4. Use `agent-browser` only for login/security checkpoints or exception diagnosis.
+5. Archive only after both sites are verified successful.
 
 Do not request or store passwords, OTPs, QR contents, cookies, tokens, or session headers. Pause for the user when login, CAPTCHA, SMS verification, or security checks appear.
-
