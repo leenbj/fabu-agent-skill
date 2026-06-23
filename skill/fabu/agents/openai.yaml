@@ -1,0 +1,4 @@
+interface:
+  display_name: "Fabu"
+  short_description: "Publish Markdown drafts to Toutiao and CSDN"
+  default_prompt: "Use $fabu to submit markdown articles from a local folder to Toutiao and CSDN with agent-browser."
