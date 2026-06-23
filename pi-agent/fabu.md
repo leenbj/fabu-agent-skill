@@ -23,3 +23,7 @@ npm run publish -- --folder "/path/to/article-folder"
 ```
 
 Then process the returned `articles` list one item at a time.
+
+For login-state setup, run `npm run auth:toutiao` and `npm run auth:csdn`. In a non-interactive agent shell, set `FABU_AUTH_WAIT_MS=900000` so the user has enough time to finish QR/SMS login.
+
+For Toutiao cover selection, the deterministic step is: `单图` -> cover tile -> `免费正版图片` -> title keyword search -> random visible image -> confirm.

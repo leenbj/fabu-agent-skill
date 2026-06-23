@@ -36,6 +36,12 @@ npm run auth:csdn
 
 These commands open a visible browser. Log in manually, then press Enter in the terminal to save Playwright `storageState`.
 
+When an agent runs the command without an interactive terminal, the browser stays open for 10 minutes by default. To change that window:
+
+```bash
+FABU_AUTH_WAIT_MS=900000 npm run auth:csdn
+```
+
 ## Publish
 
 ```bash
@@ -43,6 +49,9 @@ npm run publish -- --folder "/path/to/article-folder"
 ```
 
 Use `--headful --limit 1` for diagnosis.
+Use `--platform csdn --limit 1` or `--platform toutiao --limit 1` for single-platform recovery tests.
+
+Toutiao cover selection uses `单图` -> free image library -> a short title keyword search -> one random visible image -> `确定`.
 
 ## Tool Strategy
 

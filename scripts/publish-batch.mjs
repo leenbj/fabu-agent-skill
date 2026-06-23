@@ -8,25 +8,36 @@ import { publishCsdn } from './platforms/csdn.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 if (!args.folder) {
-  console.error('Usage: npm run publish -- --folder /path/to/articles [--limit 5] [--headful]');
+  console.error('Usage: npm run publish -- --folder /path/to/articles [--limit 5] [--start-index 2] [--platform both|toutiao|csdn] [--headful]');
   process.exit(2);
 }
+if (args.platform && !['both', 'toutiao', 'csdn'].includes(args.platform)) {
+  console.error('Invalid --platform. Use both, toutiao, or csdn.');
+  process.exit(2);
+}
+args.platform ||= 'both';
 
 const root = path.resolve(args.folder);
 const resultsDir = path.resolve('.fabu-results');
 await fs.mkdir(resultsDir, { recursive: true });
 
 const queue = loadQueue(root);
-const articles = Number.isFinite(args.limit) ? queue.articles.slice(0, args.limit) : queue.articles;
+const startIndex = Number.isFinite(args.startIndex) ? Math.max(0, args.startIndex - 1) : 0;
+const selected = queue.articles.slice(startIndex);
+const articles = Number.isFinite(args.limit) ? selected.slice(0, args.limit) : selected;
 const runResults = [];
 
 for (const article of articles) {
   const result = { title: article.title, path: article.path, toutiao: null, csdn: null, archived: false };
   try {
-    result.toutiao = await withPlatform('toutiao', args, page => publishToutiao(page, article));
-    result.csdn = await withPlatform('csdn', args, page => publishCsdn(page, article));
+    if (args.platform !== 'csdn') {
+      result.toutiao = await withPlatform('toutiao', args, page => publishToutiao(page, article));
+    }
+    if (args.platform !== 'toutiao') {
+      result.csdn = await withPlatform('csdn', args, page => publishCsdn(page, article));
+    }
 
-    if (result.toutiao.ok && result.csdn.ok) {
+    if (result.toutiao?.ok && result.csdn?.ok) {
       const archive = spawnSync('python3', [
         'skill/fabu/scripts/prepare_articles.py',
         root,
@@ -94,6 +105,8 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === '--folder') parsed.folder = argv[++i];
     else if (arg === '--limit') parsed.limit = Number(argv[++i]);
+    else if (arg === '--start-index') parsed.startIndex = Number(argv[++i]);
+    else if (arg === '--platform') parsed.platform = argv[++i];
     else if (arg === '--headful') parsed.headful = true;
     else if (arg === '--no-fast') parsed.fast = false;
   }

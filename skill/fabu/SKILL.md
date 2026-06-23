@@ -62,6 +62,8 @@ npm run auth:toutiao
 npm run auth:csdn
 ```
 
+In a real terminal, these commands keep the visible browser open until the user logs in and presses Enter. In a non-interactive agent shell, the browser stays open for 10 minutes by default; change it with `FABU_AUTH_WAIT_MS=900000 npm run auth:csdn`.
+
 Publish:
 
 ```bash
@@ -115,6 +117,8 @@ npm run publish -- --folder "/path/to/article-folder"
 
 Options:
 - `--limit N`: process only first N articles.
+- `--start-index N`: start from the Nth article in the prepared queue.
+- `--platform both|toutiao|csdn`: run both platforms or only one platform for recovery.
 - `--headful`: visible browser for diagnosis.
 - `--no-fast`: disable request blocking if a page needs images/CSS to render a required control.
 
@@ -132,7 +136,7 @@ The adapter should:
 - Open `https://mp.toutiao.com/profile_v4/graphic/publish`.
 - Fill title placeholder `请输入文章标题（2～30个字）`.
 - Fill body editor and verify nonzero `共 N 字`.
-- Add cover: `单图` -> cover tile -> `免费正版图片` -> random visible image -> `确定`.
+- Add cover: `单图` -> scroll to/click the cover tile -> `免费正版图片` -> search with a short keyword from the title -> random visible image -> `确定`.
 - Keep/select `投放广告赚收益`.
 - Select `取材网络`.
 - Click `预览并发布`, then `确认发布`.

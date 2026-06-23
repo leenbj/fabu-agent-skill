@@ -14,3 +14,7 @@ When the user asks to publish local Markdown articles/news drafts to Toutiao, �
 5. Archive only after both sites are verified successful.
 
 Do not request or store passwords, OTPs, QR contents, cookies, tokens, or session headers. Pause for the user when login, CAPTCHA, SMS verification, or security checks appear.
+
+For auth setup from Cursor's non-interactive shell, prefer `FABU_AUTH_WAIT_MS=900000 npm run auth:toutiao` and `FABU_AUTH_WAIT_MS=900000 npm run auth:csdn` so the browser does not close before the user finishes login.
+
+For Toutiao covers, use `单图`, scroll to/click the cover tile, open `免费正版图片`, search a short keyword from the title, then choose one random visible image and confirm.
